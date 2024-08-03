@@ -1,0 +1,32 @@
+@import './font';
+@import './reset';
+@import './utils';
+
+
+.img-wrapper {
+    width: 12.8125rem;
+    height: 12.8125rem;
+    margin-inline: auto;
+
+    &.logo {
+        $size: var(--img-size, 17rem);
+        height: calc($size / 3);
+
+        background-image: url('/images/rcf-logo.png');
+        background-position: center 40%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+
+section {
+    width: 45.875rem;
+    max-width: 100%;
+    margin-inline: auto;
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

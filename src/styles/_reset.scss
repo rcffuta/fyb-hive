@@ -1,0 +1,58 @@
+@use './colors' as colors;
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: colors.$white;
+    font-size: 16px;
+
+    padding-top: 2.8125rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+ul[role="list"] {
+    list-style: none;
+    padding: 0;
+}
+
+
+img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+}
+
+
+input,
+textarea {
+    font-family: inherit;
+
+    &::placeholder {
+        font-family: inherit;
+    }
+}

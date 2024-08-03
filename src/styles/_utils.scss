@@ -1,0 +1,75 @@
+@use './colors' as colors;
+
+.btn {
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+
+    outline: 0;
+
+    min-width: var(--btn-min-width, 5.1875rem);
+    width: var(--btn-width, fit-content);
+    max-width: var(--btn-max-width, 100%);
+
+    padding-block: var(--btn-padding-block, 0.625rem);
+    padding-inline: var(--btn-padding-inline, 1.125rem);
+
+    border-color: var(--btn-border-color, transparent);
+    border-style: var(--btn-border-style, solid);
+    border-width: var(--btn-border-width, 1px);
+    border-radius: var(--btn-border-radius, 6px);
+
+    background: var(--btn-background, transparent);
+    color: var(--btn-color);
+
+    cursor: pointer;
+
+    &:has(.icon) {
+        display: inline-flex;
+        gap: 0.75rem;
+        justify-content: center;
+
+        .icon {
+            width: var(--btn-icon-size, 1.5rem);
+            height: var(--btn-icon-size, 1.5rem);
+
+            overflow: hidden;
+            text-indent: 200%;
+        }
+    }
+
+    .icon.key-ico {
+        background-image: url('/images/icons/key.svg');
+    }
+
+    .icon.play-ico {
+        background-image: url('/images/icons/play-circle.svg');
+    }
+
+    &-lg {
+        width: 19.375rem;
+        height: 3.375rem;
+        --btn-border-radius: 5px;
+    }
+
+    &-md {
+        // width: 15.875rem;
+        // height: 3.625rem;        
+        --btn-padding-block: .7rem;
+        --btn-padding-inline: 4rem;
+
+    }
+
+    &-primary {
+        background-color: colors.$primary;
+        color: colors.$white-accent;
+    }
+}
+
+
+.mx {
+    &-auto {
+        display: block;
+        margin-inline:auto
+    }
+}
