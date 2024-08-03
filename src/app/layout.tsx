@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import '@/styles/main.scss';
+import Link from "next/link";
 
 
 export const metadata: Metadata = {
@@ -16,7 +17,16 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <main>
-                    {children}
+                    <section>
+                        
+                        <Link href='/' className="img-wrapper logo">
+                            RCF FUTA
+                        </Link>
+
+                        {children}
+                        {/* <Done /> */}
+
+                    </section>
                 </main>
             </body>
         </html>

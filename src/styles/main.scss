@@ -11,6 +11,9 @@
     &.logo {
         $size: var(--img-size, 17rem);
         height: calc($size / 3);
+        overflow: hidden;
+
+        color: transparent;
 
         background-image: url('/images/rcf-logo.png');
         background-position: center 40%;

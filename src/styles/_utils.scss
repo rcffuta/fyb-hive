@@ -1,4 +1,5 @@
 @use './colors' as colors;
+@use './mixins' as mixins;
 
 .btn {
     text-decoration: none;
@@ -63,6 +64,11 @@
     &-primary {
         background-color: colors.$primary;
         color: colors.$white-accent;
+
+        &-outline {
+            color: colors.$primary;
+            --btn-border-color: colors.$primary;
+        }
     }
 }
 
@@ -71,5 +77,15 @@
     &-auto {
         display: block;
         margin-inline:auto
+    }
+}
+
+.cta {
+    display: flex;
+    gap: 1.75rem;
+    flex-direction: column;
+
+    @include mixins.least-large-screen {
+        flex-direction: row;
     }
 }

@@ -56,3 +56,36 @@ textarea {
         font-family: inherit;
     }
 }
+
+main {
+    
+    &::after,
+    &::before {
+        content: '';
+        position: fixed;
+
+        $size: clamp(500px, 40vw, 711px);
+        width:  $size;
+        height: $size;
+
+        border-radius: 50%;
+        // background-color: red;
+        z-index: -1;
+    }
+
+    &::before {
+        top: 0%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(162.94deg, rgba(196, 196, 196, 0.1204) 11.4%, rgba(255, 255, 255, 0) 81.73%);
+    }
+
+    &::after {
+        top: 50%;
+        left: 0%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(162.94deg, rgba(196, 196, 196, 0.2881) 11.4%, rgba(255, 255, 255, 0) 81.73%);
+    }
+
+
+}
