@@ -4,8 +4,7 @@ import Link from "next/link";
 
 export default function App() {
 	return (
-		<div>
-            <br/><br/><br/><br/>
+		<>
 
             <div className="img-wrapper">
                 <Image
@@ -23,11 +22,11 @@ export default function App() {
             <br/><br/><br/>
 
             <Link
-                href={'/done'}
+                href={'/register'}
                 className="btn btn-primary btn-md text-uppercase mx-auto"
             >
                 register
             </Link>
-        </div>
+        </>
 	);
 }

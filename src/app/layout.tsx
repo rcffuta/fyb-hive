@@ -23,7 +23,10 @@ export default function RootLayout({
                             RCF FUTA
                         </Link>
 
-                        {children}
+                        <div>
+                            <br/><br/>
+                            {children}
+                        </div>
                         {/* <Done /> */}
 
                     </section>

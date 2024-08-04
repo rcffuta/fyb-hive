@@ -62,6 +62,12 @@
     &-uppercase {
         text-transform: uppercase;
     }
+    &-capitalize {
+        text-transform: capitalize;
+    }
+    &-disabled {
+        color: #000000B2;
+    }
 }
 
 

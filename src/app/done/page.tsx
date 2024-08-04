@@ -2,9 +2,7 @@ import Image from "next/image";
 
 export default function Done() {
     return (
-        <div>
-            <br/><br/><br/><br/>
-
+        <>
             <div className="img-wrapper">
                 <Image
                     src={'/images/thumbs.png'}
@@ -39,6 +37,6 @@ export default function Done() {
 
 
             </div>
-        </div>
+        </>
     )   
 }
