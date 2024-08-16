@@ -3,15 +3,39 @@ import { UserOutlined } from '@ant-design/icons';
 import ImageUpload from "../ImageUpload";
 import TextInput from "../Form/TextInput";
 import CheckInput from "../Form/CheckInput";
+import SelectInput from "../Form/SelectInput";
 
 
 export default function FormSlide1(){
     return (
         <>
-            {/* <ImageUpload/>
+            {/* 
 
             <br/> */}
 
+
+            <div className="form-group">
+
+                <ImageUpload/>
+
+                <CheckInput
+                    label="Select your gender"
+                    name="gender"
+                    options={[
+                        {
+                            id:'gender-male',
+                            label: 'Male',
+                            icon: 'icon-male'
+                        },
+                        {
+                            id:'gender-female',
+                            label: 'Female',
+                            icon: 'icon-female'
+                        }
+                    ]}
+                />
+            </div>
+            <br/>
 
             <div className="form-group">
                 <TextInput
@@ -35,22 +59,45 @@ export default function FormSlide1(){
 
             <br/>
 
-            <CheckInput
-                label="Select your gender"
-                name="gender"
-                options={[
-                    {
-                        id:'gender-male',
-                        label: 'Male',
-                        icon: 'icon-male'
-                    },
-                    {
-                        id:'gender-female',
-                        label: 'Female',
-                        icon: 'icon-female'
-                    }
-                ]}
-            />
+
+            <div className="form-group">
+
+                <CheckInput
+                    label="Are you a worker"
+                    name="worker"
+                    options={[
+                        {
+                            id:'worker-yes',
+                            label: 'Yes',
+                            icon: 'icon-check'
+                        },
+                        {
+                            id:'worker-no',
+                            label: 'No',
+                            icon: 'icon-cross'
+                        }
+                    ]}
+                />
+
+
+                 <CheckInput
+                    label="Are you an executive"
+                    name="executive"
+                    options={[
+                        {
+                            id:'executive-yes',
+                            label: 'Yes',
+                            icon: 'icon-check-double'
+                        },
+                        {
+                            id:'executive-no',
+                            label: 'No',
+                            icon: 'icon-cross'
+                        }
+                    ]}
+                />
+
+            </div>
 
             <br/>
 
@@ -67,6 +114,15 @@ export default function FormSlide1(){
                     tel
                 />
             </div>
+
+
+            <br/>
+
+
+            {/* <SelectInput
+                label="hobbies"
+                name=""
+            /> */}
 
             
         </>
