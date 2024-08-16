@@ -4,6 +4,7 @@ import { useState } from 'react';
 import FormSlide1 from './FormSlide1';
 import FormSlide2 from './FormSlide2';
 import FormSlide3 from './FormSlide3';
+import FormCustomDot from '../FormCounter';
 
 const { Step } = Steps;
 
@@ -72,8 +73,13 @@ export default function RegistrationForm() {
 
     return (
         <div>
+
             <br/>
-            <Steps current={current}>
+            <Steps 
+                current={current}
+                direction='horizontal'
+                progressDot={FormCustomDot}
+            >
                 {steps.map((item, index) => (
                     <Step key={index}/>
                 ))}

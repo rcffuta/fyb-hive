@@ -17,15 +17,15 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <main>
-                    <section>
-                        
-                        <div className="logo-wrapper">
+                    <section className="main-wrapper">
+                        <div className="logo-wrapper sticky">
                             <Link href='/' className="img-wrapper logo">
                                 RCF FUTA
                             </Link>
                         </div>
+                        
 
-                        <div>
+                        <div className="main-content">
                             <br/>
                             {children}
                         </div>
