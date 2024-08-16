@@ -5,6 +5,7 @@ import FormSlide1 from './FormSlide1';
 import FormSlide2 from './FormSlide2';
 import FormSlide3 from './FormSlide3';
 import FormCustomDot from '../FormCounter';
+import { useRouter } from 'next/navigation';
 
 const { Step } = Steps;
 
@@ -12,6 +13,7 @@ export default function RegistrationForm() {
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
 
+    const router = useRouter();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -19,73 +21,35 @@ export default function RegistrationForm() {
         address: '',
     });
 
-
-    const steps = [
-        {
-        title: 'Step 1',
-        content: (
-            <FormSlide1/>
-        ),
-        },
-        {
-        title: 'Step 2',
-        content: (
-            <FormSlide2 />
-        ),
-        },
-        {
-        title: 'Step 3',
-        content: (
-            <FormSlide3 />
-        ),
-        },
-    ];
-
-    const next = () => {
-        form
-        .validateFields()
-        .then(values => {
-            // Store form data
-            setFormData({
-            ...formData,
-            ...values,
-            });
-
-            // Move to the next step
-            setCurrent(current + 1);
-        })
-        .catch(info => {
-            console.log('Validate Failed:', info);
-        });
-    };
-
-    const prev = () => {
-
-        if (current == 0) return;
-        setCurrent(current - 1);
-    };
-
     // Submit form data
     const handleFinish = () => {
+
+        // form
+        // .validateFields()
+        // .then(values => {
+        //     // Store form data
+        //     setFormData({
+        //     ...formData,
+        //     ...values,
+        //     });
+
+        //     // Move to the next step
+        //     setCurrent(current + 1);
+        // })
+        // .catch(info => {
+        //     console.log('Validate Failed:', info);
+        // });
         message.success('Form submitted successfully!');
         console.log('Form Data:', formData);
+
+        router.replace('/register/done');
+        
     };
 
     return (
         <div>
 
-            <br/>
-            <Steps 
-                current={current}
-                direction='horizontal'
-                progressDot={FormCustomDot}
-            >
-                {steps.map((item, index) => (
-                    <Step key={index}/>
-                ))}
-            </Steps>
-
-            <br/>
+            <br/><br/>
 
             <Form
                 form={form}
@@ -93,44 +57,22 @@ export default function RegistrationForm() {
                 onFinish={handleFinish}
                 initialValues={formData}
             >
-                <div className="steps-content">{steps[current].content}</div>
+                <div className="steps-content">
+                    <FormSlide1/>
+                </div>
 
 
                 <div
                     className="steps-action"
                 >
                     <button
-                        className="btn btn-primary"
-                        onClick={prev}
-                        title='Previous'
+                        className="btn btn-primary text-uppercase btn-submit fw-700 fs-18"
+                        // onClick={handl}
+                        title='Submit'
+                        type='submit'
                     >
-                        <svg width="30" height="17" viewBox="0 0 30 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M30 7.42677V9.57323H4.35781L10.5995 15.476L8.98798 17L0 8.5L8.98798 0L10.5995 1.52399L4.35781 7.42677L30 7.42677Z" fill="#F4F4F4"/>
-                        </svg>
+                        Submit
                     </button>
-
-
-                    {
-                        current === steps.length - 1 ? (
-                             <button
-                                className="btn btn-primary text-uppercase"
-                                type='submit'
-                                title='Submit'
-                            >
-                                Done
-                            </button>
-                        ) : (
-                            <button
-                                className="btn btn-primary text-uppercase"
-                                onClick={next}
-                                title='Next'
-                            >
-                                <svg width="30" height="17" viewBox="0 0 30 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 9.57323V7.42677L25.6422 7.42677L19.4005 1.52399L21.012 0L30 8.5L21.012 17L19.4005 15.476L25.6422 9.57323L0 9.57323Z" fill="white"/>
-                                </svg>
-                            </button>
-                        )
-                    }
                 </div>
             </Form>
         </div>

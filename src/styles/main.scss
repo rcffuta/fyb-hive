@@ -47,7 +47,7 @@
 }
 
 section.main-wrapper {
-    width: 35.875rem;
+    width: 40.875rem;
     max-width: 100%;
     margin-inline: auto;
 
@@ -245,6 +245,14 @@ form {
             &.icon-cross::before {
                 background-image: url('/icons/cross.svg');
             }
+
+            &.icon-greater::before {
+                background-image: url('/icons/greater.svg');
+            }
+
+            &.icon-greater-cirlce::before {
+                background-image: url('/icons/greater-cirlce.svg');
+            }
         }
     }
 }
@@ -276,5 +284,32 @@ form {
     }
 }
 
+.btn-submit {
+    width: 100%;
+}
 
 
+.home-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+    
+    
+    
+    .btn {
+        padding: 1rem;
+        // flex: 1;
+        min-width: 10rem;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+    @include mixins.least-small-screen {
+        flex-wrap: wrap;
+
+        .btn {
+            flex: 1;
+        }
+
+    }
+}

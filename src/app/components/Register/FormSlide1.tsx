@@ -1,18 +1,12 @@
-import { Avatar } from "antd";
-import { UserOutlined } from '@ant-design/icons';
+
 import ImageUpload from "../ImageUpload";
 import TextInput from "../Form/TextInput";
 import CheckInput from "../Form/CheckInput";
-import SelectInput from "../Form/SelectInput";
 
 
 export default function FormSlide1(){
     return (
         <>
-            {/* 
-
-            <br/> */}
-
 
             <div className="form-group">
 
@@ -63,7 +57,7 @@ export default function FormSlide1(){
             <div className="form-group">
 
                 <CheckInput
-                    label="Are you a worker"
+                    label="Are you a worker?"
                     name="worker"
                     options={[
                         {
@@ -79,8 +73,7 @@ export default function FormSlide1(){
                     ]}
                 />
 
-
-                 <CheckInput
+                <CheckInput
                     label="Are you an executive"
                     name="executive"
                     options={[

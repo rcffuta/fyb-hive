@@ -24,15 +24,15 @@ export default function Done() {
 
             <div className="cta">
                 <button
-                    className="btn btn-primary btn-md text-uppercase mx-auto"
+                    className="btn btn-primary btn-md text-uppercase mx-auto fs-18 fw-700"
                 >
-                    EXPLORE OUR WEBSITE
+                    Apply for nomination
                 </button>
 
                 <button
-                    className="btn btn-primary-outline btn-md text-uppercase mx-auto"
+                    className="btn btn-primary-outline btn-md text-uppercase mx-auto fs-18 fw-700"
                 >
-                    GET YOUR RW’24 MERCH
+                    Pay for Dinner
                 </button>
 
 

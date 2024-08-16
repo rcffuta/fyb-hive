@@ -23,6 +23,8 @@
     background: var(--btn-background, transparent);
     color: var(--btn-color);
 
+    transition: all 400ms ease;
+
     cursor: pointer;
 
     &:has(.icon) {
@@ -68,6 +70,13 @@
         &-outline {
             color: colors.$primary;
             --btn-border-color: colors.$primary;
+            
+            &:hover {
+                --btn-border-color: colors.$primary;
+                color: colors.$white;
+                background-color: colors.$primary;
+                
+            }
         }
     }
 }
