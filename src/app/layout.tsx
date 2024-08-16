@@ -26,7 +26,7 @@ export default function RootLayout({
                         </div>
 
                         <div>
-                            <br/><br/>
+                            <br/>
                             {children}
                         </div>
                         {/* <Done /> */}
