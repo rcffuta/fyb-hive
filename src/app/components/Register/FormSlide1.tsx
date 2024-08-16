@@ -53,6 +53,22 @@ export default function FormSlide1(){
             />
 
             <br/>
+
+            <div className="form-group">
+                <TextInput
+                    name="contact"
+                    label="Phone Number"
+                    tel
+                />
+
+                <TextInput
+                    name="alt-contact"
+                    label="Alternative phone Number"
+                    tel
+                />
+            </div>
+
+            
         </>
     )
 }

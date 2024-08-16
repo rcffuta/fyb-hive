@@ -119,14 +119,29 @@ form {
         }
         
         &:not([type="radio"]) {
+            background-color: transparent;
             display: block;
             padding: .7rem 1rem;
             border: 0.3px solid colors.$primary;
             border-radius: 4px;
             outline: 0;
-            margin-top: .5rem;
+            // margin-top: .5rem;
+        }
+
+        &[type="tel"] {
+            outline: 0;
+            border: 0;
+            box-shadow: none;
         }
         
+    }
+
+
+    &:has(input[type="tel"]) {
+        & > span:last-of-type {
+            outline: 1px solid colors.$primary;
+            border-radius: 4px;
+        }
     }
 
 

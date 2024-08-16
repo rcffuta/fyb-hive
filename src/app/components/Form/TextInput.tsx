@@ -6,15 +6,22 @@ interface TextInputProps {
     name: string;
     label: string;
     placeholder?: string;
-    email?: boolean
+    email?: boolean;
+    tel?: boolean;
 }
+
 
 export default function TextInput(props: TextInputProps) {
 
     let type = 'text';
+    let addon;
 
     if (props.email) {
         type = 'email'
+    }
+
+    if (props.tel) {
+        type = 'tel'
     }
 
     return (
@@ -22,7 +29,6 @@ export default function TextInput(props: TextInputProps) {
             htmlFor={props.name}
             className="form-input"
         >
-            
             <span
                 className="text-capitalize fw-400 fs-14 lh-27"
             >
@@ -32,6 +38,7 @@ export default function TextInput(props: TextInputProps) {
             <Input
                 placeholder={props.placeholder}
                 type={type}
+                addonBefore={props.tel ? '+234' : ''}
             />
 
         </label>
