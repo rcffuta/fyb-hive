@@ -9,18 +9,34 @@
     width: 12.8125rem;
     height: 12.8125rem;
     margin-inline: auto;
-
+    
     &.logo {
-        $size: var(--img-size, 17rem);
-        height: calc($size / 3);
+        // $size: var(--img-size, 17rem);
+        // height: calc($size / 3);
         overflow: hidden;
-
+        
         color: transparent;
-
+        
         background-image: url('/images/rcf-logo.png');
         background-position: center 40%;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+}
+
+.logo-wrapper {
+    // background-color: red;
+    width: 100%;
+    height: calc(17rem / 3);
+
+    position: sticky;
+    top: 0rem;
+    // height: 5rem;
+
+    .logo {
+        display: block;
+        height: 100%;
+        // background-color: green;
     }
 }
 

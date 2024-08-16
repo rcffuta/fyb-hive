@@ -19,9 +19,11 @@ export default function RootLayout({
                 <main>
                     <section>
                         
-                        <Link href='/' className="img-wrapper logo">
-                            RCF FUTA
-                        </Link>
+                        <div className="logo-wrapper">
+                            <Link href='/' className="img-wrapper logo">
+                                RCF FUTA
+                            </Link>
+                        </div>
 
                         <div>
                             <br/><br/>
