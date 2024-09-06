@@ -7,10 +7,10 @@ export default function Register() {
     return (
         <>
             <h1 className="text-center clr-primary ff-riffic fw-700 fs-24 lh-30">
-                Fill Your Details
+                FYB registration
             </h1>
-            
 
+            <br/><br/>
             <RegistrationForm/>
             <br/><br/>
         </>

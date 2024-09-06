@@ -1,80 +1,49 @@
 'use client';
 import { Steps, Button, Form, Input, message } from 'antd';
 import { useState } from 'react';
-import FormSlide1 from './FormSlide1';
-import FormSlide2 from './FormSlide2';
-import FormSlide3 from './FormSlide3';
+import FormSlide1 from './FinalistForm';
 import FormCustomDot from '../FormCounter';
 import { useRouter } from 'next/navigation';
+import ImageUpload from '../ImageUpload';
+import CheckInput from '../Form/CheckInput';
+import TextInput from '../Form/TextInput';
+import FinalistForm from './FinalistForm';
+import AssociateForm from './AssociateForm';
+import ConsentToken from './ConsentToken';
 
 const { Step } = Steps;
 
 export default function RegistrationForm() {
-    const [current, setCurrent] = useState(0);
-    const [form] = Form.useForm();
+    const [currentTab, setCurrentTab] = useState(0);
 
-    const router = useRouter();
+    const tabs = [
+        { title: 'Register as a finalist', content: <FinalistForm /> },
+        { title: 'Register an associate', content: <AssociateForm /> },
+        // { title: 'Tab 3', content: <ConsentToken /> },
+    ];
 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        address: '',
-    });
-
-    // Submit form data
-    const handleFinish = () => {
-
-        // form
-        // .validateFields()
-        // .then(values => {
-        //     // Store form data
-        //     setFormData({
-        //     ...formData,
-        //     ...values,
-        //     });
-
-        //     // Move to the next step
-        //     setCurrent(current + 1);
-        // })
-        // .catch(info => {
-        //     console.log('Validate Failed:', info);
-        // });
-        message.success('Form submitted successfully!');
-        console.log('Form Data:', formData);
-
-        router.replace('/register/done');
-        
+    const handleTabClick = (index: number) => {
+        setCurrentTab(index);
     };
 
     return (
-        <div>
-
-            <br/><br/>
-
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleFinish}
-                initialValues={formData}
-            >
-                <div className="steps-content">
-                    <FormSlide1/>
-                </div>
-
-
-                <div
-                    className="steps-action"
+        <section className="registration-container">
+            <div className="tabs">
+                {tabs.map((tab, index) => (
+                <button
+                    key={index}
+                    className={`tab-button ${currentTab === index ? 'active' : ''}`}
+                    onClick={() => handleTabClick(index)}
                 >
-                    <button
-                        className="btn btn-primary text-uppercase btn-submit fw-700 fs-18"
-                        // onClick={handl}
-                        title='Submit'
-                        type='submit'
-                    >
-                        Submit
-                    </button>
-                </div>
-            </Form>
-        </div>
+                    {tab.title}
+                </button>
+                ))}
+            </div>
+
+            <div className="tab-content">
+                {tabs[currentTab].content}
+            </div>
+        </section>
+        
     );
 }

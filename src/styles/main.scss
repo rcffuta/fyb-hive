@@ -102,6 +102,13 @@ form {
         flex: 1;
     }
 
+
+    &.group-col {
+        flex-direction: column;
+        // background-color: red;
+        width: 100%;
+    }
+
     @include mixins.least-small-screen(){
         flex-direction: column;
     }
@@ -258,19 +265,6 @@ form {
 }
 
 
-.steps-action {
-    // background-color: red;
-    margin-top: 2rem;
-    display: flex;
-    justify-content: space-between;
-
-    .btn {
-
-        padding: 1rem;
-    }
-}
-
-
 .avatar-input {
 
     display: flex;
@@ -311,5 +305,61 @@ form {
             flex: 1;
         }
 
+    }
+}
+
+
+.registration-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .tabs {
+        display: flex;
+        background-color: #f4f4f4;
+    }
+
+    .tab-button {
+        flex: 1;
+        padding: 10px 15px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border-bottom: 2px solid transparent;
+        outline: none;
+
+        &:hover {
+            background-color: #e0e0e0;
+        }
+
+        &.active {
+            background-color: #fff;
+            border-bottom: 2px solid colors.$primary-accent;
+            font-weight: bold;
+        }
+    }
+
+    .tab-content {
+        padding: 20px;
+        background-color: #fff;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
