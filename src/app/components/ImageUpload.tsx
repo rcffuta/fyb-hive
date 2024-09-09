@@ -40,6 +40,19 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>();
 
+
+    
+    
+    function revealError() {
+        // const errorMessage = props.error ? props.error[props.name] : null;
+
+        if (!props.error) return;
+
+        if (!props.error[props.name]) return;
+
+        message.error(props.error[props.name]);
+    }
+
     const upload = async (options: any) => {
         const { onSuccess, onError, file, onProgress } = options;
 
@@ -109,7 +122,12 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
             // onChange={handleChange}
             customRequest={upload}
         >
-        {imageUrl ? <Image src={imageUrl} alt="avatar" style={{ width: '100%' }} width={100} height={100}/> : uploadButton}
+            {imageUrl ? <Image src={imageUrl} alt="avatar" style={{ width: '100%' }} width={100} height={100}/> : uploadButton}
+            {
+                <>
+                    {revealError()}
+                </>
+        }
         </Upload>
     );
 };

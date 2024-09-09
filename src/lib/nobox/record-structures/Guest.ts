@@ -1,4 +1,4 @@
-import { Space } from "nobox-client";
+import { ReturnObject, Space } from "nobox-client";
 import { createRowSchema } from "../config";
 
 
@@ -10,7 +10,7 @@ interface GuestProp {
     relationsipWithAssociate?: string;
 }
 
-interface GuestAccount extends GuestProp{
+export interface GuestAccount extends GuestProp{
     firstname: string;
     lastname: string;
     picture: string;
@@ -23,6 +23,8 @@ interface GuestAccount extends GuestProp{
     exco: boolean;
     portfolio?: string;
 }
+
+export type GuestObject = ReturnObject<GuestAccount>;
 
 export const GuestStructure: Space<GuestAccount> = {
     space: "Guest",

@@ -1,15 +1,19 @@
-import { message } from "antd";
+import { message as Message, notification } from "antd";
 
-export const openNotificationWithIcon = (type: 'success' | 'error', messages: string, description: string) => {
+export const openNotificationWithIcon = (type: 'success' | 'error', message: string, description: string, notify?:boolean) => {
 
 
-    // const handle = type === 'success' ? notification.success : notification.error;
+    if (notify) {
 
-    
-    // handle({
-    //     message,
-    //     description,
-    // });
+        const handle = type === 'success' ? notification.success : notification.error;
+        
+        handle({
+            message,
+            description,
+        });
 
-     message.success(description);
+        return
+    }
+
+     Message.success(description);
 };
