@@ -1,6 +1,6 @@
 import { FormError } from "@/components/Form/form.interface";
 
-export default function validateForm(_data: any) {
+export function validateFinalistForm(_data: any) {
     const _formError: FormError = {};
 
     const {
@@ -41,6 +41,41 @@ export default function validateForm(_data: any) {
         if (!portfolio) _formError.portfolio = 'What office'+ suffix +'?'
     }
 
+
+    if (Object.keys(_formError).length < 1) {
+        return null
+    }
+
+    return _formError;
+
+}
+
+export function validateAssociatetForm(_data: any) {
+    const _formError: FormError = {};
+
+    const {
+        firstname, lastname,
+        picture, gender, contact,
+        email, relationsipWithAssociate
+
+    } = _data;
+
+
+    let suffix = '';
+
+    if (!gender) _formError.gender = 'Male/Female please?'
+
+    if (gender) {
+        suffix = ' ' + (gender === 'male' ? 'sir': 'ma');
+    }
+
+
+    if (!firstname) _formError.firstname = 'First name is required' + suffix
+    if (!lastname) _formError.lastname = 'Last name is required'+ suffix
+    if (!picture) _formError.picture = 'Your picture is required'+ suffix
+    if (!contact) _formError.contact = 'Your contact is required'+ suffix
+    if (!email) _formError.email = 'Your email address is required'+ suffix
+    if (!relationsipWithAssociate) _formError.relationsipWithAssociate = 'Please tell us'+ suffix +'...'
 
     if (Object.keys(_formError).length < 1) {
         return null

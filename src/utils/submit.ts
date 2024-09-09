@@ -1,9 +1,7 @@
 import { GuestAccount, GuestModel } from "@/lib/nobox/record-structures/Guest";
-import validateForm from "./validate-form";
-import axios from "axios";
 import { generateShortToken } from "./generate-token";
 
-export default async function submitData (formData: any) {
+export default async function submitData (formData: any, genToken: boolean = false) {
         
 
     const obj = await GuestModel.insertOne(formData as GuestAccount)
@@ -14,13 +12,17 @@ export default async function submitData (formData: any) {
         throw new Error("Did not create account!");
     }
 
-    const token = generateShortToken(obj.id)
+    if (genToken) {
 
-    // Update consent token
-    const guest = await GuestModel.updateOneById(obj.id, {
-        consentId: token
-    });
-
-    return guest;
+        const token = generateShortToken(obj.id)
     
+        // Update consent token
+        const guest = await GuestModel.updateOneById(obj.id, {
+            consentId: token
+        });
+        return guest;
+    }
+
+
+    return obj;
 }

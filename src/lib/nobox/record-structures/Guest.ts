@@ -17,10 +17,10 @@ export interface GuestAccount extends GuestProp{
     gender: Gender;
     contact: string;
     email: string;
-    partV: boolean;
-    worker: boolean;
+    partV?: boolean;
+    worker?: boolean;
     unit?: string;
-    exco: boolean;
+    exco?: boolean;
     portfolio?: string;
 }
 
@@ -63,12 +63,12 @@ export const GuestStructure: Space<GuestAccount> = {
         },
         partV: {
             description: "Guest's level (partIV or Part V)",
-            required: true,
+            // required: true,
             type: Boolean,
         },
         worker: {
             description: "Is Guest a worker",
-            required: true,
+            // required: true,
             type: Boolean,
         },
         unit: {
@@ -77,7 +77,7 @@ export const GuestStructure: Space<GuestAccount> = {
         },
         exco: {
             description: "Is Guest an executive",
-            required: true,
+            // required: true,
             type: Boolean,
         },
         portfolio: {

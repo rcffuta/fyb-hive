@@ -9,19 +9,19 @@ import { FormError } from "../Form/form.interface";
 import { GuestAccount, GuestModel, GuestObject } from "@/lib/nobox/record-structures/Guest";
 import { generateShortToken } from "@/utils/generate-token";
 import axios from "axios";
-import validateForm from "@/utils/validate-form";
+import { validateFinalistForm } from "@/utils/validate-form";
 import submitData from "@/utils/submit";
 
 const dummyData:any = {
-    "contact": "8122137834",
-    "email": "preciousolusola16@gmail.com",
-    "exco": false,
-    "firstname": "Precious",
-    "gender": "male",
-    "lastname": "Olusola",
-    "partV": true,
-    "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
-    "worker": false
+    // "contact": "8122137834",
+    // "email": "preciousolusola16@gmail.com",
+    // "exco": false,
+    // "firstname": "Precious",
+    // "gender": "male",
+    // "lastname": "Olusola",
+    // "partV": true,
+    // "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
+    // "worker": false
 }
 
 
@@ -36,7 +36,7 @@ export default function FinalistForm(){
 
     const handleFinish = () => {
         
-        const _errors = validateForm(formData);
+        const _errors = validateFinalistForm(formData);
 
         if (_errors) {
             setFormError(_errors);
@@ -46,9 +46,9 @@ export default function FinalistForm(){
         setLoading(true);
 
 
-        submitData(formData)
+        submitData(formData, true)
         .then(async (guest: GuestAccount)=>{
-            await axios.post('/api/mail', { guest });
+            await axios.post('/api/mail-finalist', { guest });
         })
         .then(()=>{
 

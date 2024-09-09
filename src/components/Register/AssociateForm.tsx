@@ -5,21 +5,21 @@ import { openNotificationWithIcon } from "@/utils/notification";
 import ImageUpload from "../ImageUpload";
 import TextInput from "../Form/TextInput";
 import { FormError } from "../Form/form.interface";
-import validateForm from "@/utils/validate-form";
 import submitData from "@/utils/submit";
 import { GuestAccount, GuestModel, GuestObject } from "@/lib/nobox/record-structures/Guest";
 import axios from "axios";
 import CheckInput from "../Form/CheckInput";
-import { getNameByGneder } from "@/utils/process-details";
+import { getNameByGender } from "@/utils/process-details";
+import { validateAssociatetForm } from "@/utils/validate-form";
 
 
 const dummyData:any = {
-    "contact": "8122137834",
-    "email": "preciousbusiness10@gmail.com",
-    "firstname": "Precious",
-    // "gender": "male",
-    "lastname": "Olusola",
-    "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
+    // "contact": "8122137834",
+    // "email": "preciousbusiness10@gmail.com",
+    // "firstname": "Precious",
+    // // "gender": "male",
+    // "lastname": "Olusola",
+    // "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
 }
 
 
@@ -37,19 +37,20 @@ export default function AssociateForm(){
 
     const handleFinish = () => {
         
-        const _errors = validateForm(formData);
+        const _errors = validateAssociatetForm(formData);
 
         if (_errors) {
             setFormError(_errors);
             return;
         }
-
+        
         setLoading(true);
+        console.log(formData)
 
 
         submitData(formData)
-        .then(async (guest: GuestAccount)=>{
-            await axios.post('/api/mail', { guest });
+        .then(async (associate: GuestAccount)=>{
+            await axios.post('/api/mail-associate', { guest, associate});
         })
         .then(()=>{
 
@@ -282,7 +283,7 @@ export default function AssociateForm(){
 
                 <TextInput
                     name="relationsipWithAssociate"
-                    label={`Relationship with ${getNameByGneder(guest!)}?`}
+                    label={`Relationship with ${getNameByGender(guest)}?`}
                     onChange={handleElemChange}
                     getValue={getValue}
                     required
@@ -305,6 +306,7 @@ export default function AssociateForm(){
                     title='Submit'
                     type='submit'
                     disabled={loading}
+                    data-hide={!Boolean(guest)}
                 >
                     Submit
                 </button>
@@ -312,10 +314,11 @@ export default function AssociateForm(){
                 <button
                     className="btn btn-primary btn-verify text-uppercase btn-submit fw-700 fs-18"
                     // onClick={handl}
-                    title='Submit'
+                    title='Verify'
                     type='button'
                     onClick={verifyConsentToken}
                     disabled={loading || verifying}
+                    data-hide={Boolean(guest)}
                 >
                     {verifying ? 'Verifying...': 'Verify'}
                 </button>
