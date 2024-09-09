@@ -7,16 +7,17 @@ import TextInput from "../Form/TextInput";
 import { FormError } from "../Form/form.interface";
 import validateForm from "@/utils/validate-form";
 import submitData from "@/utils/submit";
-import { GuestAccount } from "@/lib/nobox/record-structures/Guest";
+import { GuestAccount, GuestModel, GuestObject } from "@/lib/nobox/record-structures/Guest";
 import axios from "axios";
 import CheckInput from "../Form/CheckInput";
+import { getNameByGneder } from "@/utils/process-details";
 
 
 const dummyData:any = {
     "contact": "8122137834",
     "email": "preciousbusiness10@gmail.com",
     "firstname": "Precious",
-    "gender": "male",
+    // "gender": "male",
     "lastname": "Olusola",
     "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
 }
@@ -30,6 +31,9 @@ export default function AssociateForm(){
     });
     const [formerror, setFormError] = useState<FormError | null>(null);
     const [loading, setLoading] = useState(false);
+    const [guest, setGuest] = useState<GuestObject | undefined>();
+    const [verifying, setVerifying] = useState(false);
+
 
     const handleFinish = () => {
         
@@ -66,6 +70,79 @@ export default function AssociateForm(){
     }
 
 
+    const verifyConsentToken = async () => {
+        const {associateId, gender} = formData;
+        // console.log({associateId, gender});
+
+        setVerifying(true);
+
+        const consent = (associateId as string).replaceAll('FYB-', '').toLocaleLowerCase();
+
+        // console.log(consent);
+
+        const guest = await GuestModel.findOne({consentId: consent});
+
+
+        if (!associateId) {
+
+            setFormError((p)=>{
+                return {
+                    ...p,
+                    associateId: 'Consent token is required'
+                }    
+            });
+
+            setVerifying(false);
+            return;
+        }
+
+        if (!gender) {
+
+            setFormError((p)=>{
+                return {
+                    ...p,
+                    gender: 'Your gender please?'
+                }    
+            });
+
+            setVerifying(false);
+            return;
+        }
+
+
+        if (!guest) {
+            openNotificationWithIcon('error', 'Unrecognized Consent', 'Consent not recognized');
+
+
+            setFormError((p)=>{
+                return {
+                    ...p,
+                    associateId: 'Unrecognized consent'
+                }    
+            });
+
+            setVerifying(false);
+            return;
+        }
+
+        if (guest.gender === gender) {
+            openNotificationWithIcon('error', 'Match error', 'Gender match error');
+
+            setVerifying(false);
+            return;
+        }
+
+
+        setFormError((p: any)=>{
+            return {}
+        });
+
+        openNotificationWithIcon('success', 'Verified', 'Consent verified!');
+        setVerifying(false);
+        setGuest(guest);
+    }
+
+
     const handleElemChange = (key:string, val:any)=>{
         setFormError((p)=>{
             if (!p) return null;
@@ -86,12 +163,15 @@ export default function AssociateForm(){
         }[key]
     }
 
+
+    const canProceed = Boolean(guest);
+
     return (
         <Form
             form={form}
             layout="vertical"
             onFinish={handleFinish}
-            initialValues={formData}
+            // initialValues={formData}
         >
             <div className="form-group">
 
@@ -112,6 +192,7 @@ export default function AssociateForm(){
                         getValue={getValue}
                         required
                         error={formerror}
+                        disable={loading}
                     />
                     
                     <CheckInput
@@ -120,6 +201,7 @@ export default function AssociateForm(){
                         onChange={handleElemChange}
                         getValue={getValue}
                         error={formerror}
+                        // disable={!canProceed && !loading}
                         disable={loading}
                         options={[
                             {
@@ -143,62 +225,73 @@ export default function AssociateForm(){
             </div>
             <br/>
 
-            <div className="form-group">
-                <TextInput
-                    name="firstname"
-                    label="First Name"
-                    onChange={handleElemChange}
-                    getValue={getValue}
-                    required
-                    error={formerror}
-                />
+
+            <div className="rest-form" data-disabled={!canProceed}>
+
+                <div className="form-group">
+                    <TextInput
+                        name="firstname"
+                        label="First Name"
+                        onChange={handleElemChange}
+                        getValue={getValue}
+                        required
+                        error={formerror}
+                        disable={!canProceed && !loading}
+                    />
+
+                    <TextInput
+                        name="lastname"
+                        label="Last Name"
+                        onChange={handleElemChange}
+                        getValue={getValue}
+                        required
+                        error={formerror}
+                        disable={!canProceed && !loading}
+                    />
+                </div>
+
+                <br/>
+
+                <div className="form-group">
+                    <TextInput
+                        name="email"
+                        label="Email"
+                        onChange={handleElemChange}
+                        getValue={getValue}
+                        required
+                        error={formerror}
+                        disable={!canProceed && !loading}
+                        email
+                    />
+
+                    <TextInput
+                        name="contact"
+                        label="Phone Number"
+                        onChange={handleElemChange}
+                        getValue={getValue}
+                        required
+                        error={formerror}
+                        disable={!canProceed && !loading}
+                        tel
+                    />
+
+                </div>
+
+                <br/>
+
 
                 <TextInput
-                    name="lastname"
-                    label="Last Name"
+                    name="relationsipWithAssociate"
+                    label={`Relationship with ${getNameByGneder(guest!)}?`}
                     onChange={handleElemChange}
                     getValue={getValue}
                     required
                     error={formerror}
+                    disable={!canProceed && !loading}
                 />
+
             </div>
 
-            <br/>
-
-            <div className="form-group">
-                <TextInput
-                    name="email"
-                    label="Email"
-                    onChange={handleElemChange}
-                    getValue={getValue}
-                    required
-                    error={formerror}
-                    email
-                />
-
-                <TextInput
-                    name="contact"
-                    label="Phone Number"
-                    onChange={handleElemChange}
-                    getValue={getValue}
-                    required
-                    error={formerror}
-                    tel
-                />
-
-            </div>
-
-            <br/>
-
-
-           <TextInput
-                name="relationsipWithAssociate"
-                label="Relationship with ...."
-                onChange={handleElemChange}
-                    getValue={getValue}
-                    required
-                    error={formerror}
-            />
 
             <br/>
 
@@ -214,6 +307,17 @@ export default function AssociateForm(){
                     disabled={loading}
                 >
                     Submit
+                </button>
+
+                <button
+                    className="btn btn-primary btn-verify text-uppercase btn-submit fw-700 fs-18"
+                    // onClick={handl}
+                    title='Submit'
+                    type='button'
+                    onClick={verifyConsentToken}
+                    disabled={loading || verifying}
+                >
+                    {verifying ? 'Verifying...': 'Verify'}
                 </button>
             </div>
         </Form>

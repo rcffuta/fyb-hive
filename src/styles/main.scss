@@ -298,6 +298,26 @@ form {
     }
 }
 
+.rest-form{
+    
+    
+    & ~ .steps-action .btn {
+        display: block;
+
+        &.btn-verify {
+            display: none;
+        }
+    }
+
+    &[data-disabled="true"] {
+        height: 0;
+        overflow: hidden;
+
+        & ~ .steps-action .btn-verify {
+            display: block;
+        }
+    }
+}
 .btn-submit {
     width: 100%;
     height: 4rem;
