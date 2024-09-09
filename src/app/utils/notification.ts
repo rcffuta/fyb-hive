@@ -15,5 +15,7 @@ export const openNotificationWithIcon = (type: 'success' | 'error', message: str
         return
     }
 
-     Message.success(description);
+
+    if (type === 'success') return Message.success(description);
+    if (type === 'error') return Message.error(description);
 };

@@ -14,7 +14,7 @@ export default function Register() {
             <br/><br/>
             <RegistrationForm/>
             <br/><br/>
-            {/* <TestConnection/> */}
+            <TestConnection/>
         </>
     )   
 }

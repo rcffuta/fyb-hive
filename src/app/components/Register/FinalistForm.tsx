@@ -7,15 +7,30 @@ import { useState } from "react";
 import { openNotificationWithIcon } from "@/app/utils/notification";
 import { FormError } from "../Form/form.interface";
 import { GuestAccount, GuestModel, GuestObject } from "@/lib/nobox/record-structures/Guest";
-import { ReturnObject } from "nobox-client";
+import { generateShortToken } from "@/app/utils/generate-token";
 
 
+
+
+const dummyData:any = {
+    // "contact": "8122137834",
+    // "email": "preciousolusola16@gmail.com",
+    // "exco": false,
+    // "firstname": "Precious",
+    // "gender": "male",
+    // "lastname": "Olusola",
+    // "partV": true,
+    // "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
+    // "worker": false
+}
 
 
 export default function FinalistForm(){
     const [form] = Form.useForm();
 
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<any>(()=>{
+        return {...dummyData}
+    });
     const [formerror, setFormError] = useState<FormError | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -23,28 +38,44 @@ export default function FinalistForm(){
         
         const _errors = validateForm(formData);
 
-        console.log(_errors);
-
         if (_errors) {
             setFormError(_errors);
             return;
         }
 
-        console.log(formData);
-
         setLoading(true);
 
 
         GuestModel.insertOne(formData as GuestAccount)
-        .then((obj: GuestObject)=>{
+        .then(async (obj: GuestObject)=>{
+
+            if (!obj) {
+                
+                throw new Error("Did not create account!");
+            }
+
+            const token = generateShortToken(obj.id)
+
+            // Update consent token
+            await GuestModel.updateOneById(obj.id, {
+                consentId: token
+            });
+
+        })
+        .then(()=>{
 
             setFormData(()=>({}))
             setFormError(()=>null);
-            setLoading(false);
-            
             // Show a success notification
             openNotificationWithIcon('success', 'Form Submitted', 'Your form has been submitted successfully!');
             openNotificationWithIcon('success', 'Check your mail', `Please check your email address(${(formData as any).email})`, true);
+        })
+        .catch((err)=>{
+            console.error(err);
+            openNotificationWithIcon('error', 'Unable to create account', 'Could not register!');
+        })
+        .finally(()=>{
+            setLoading(false);
         })
         
     }
@@ -104,14 +135,21 @@ export default function FinalistForm(){
             if (!p) return null;
             return null;
         })
-        setFormData(prev=>(
+        setFormData((prev: any)=>(
             {
                 ...prev,
                 [key]: val
             }
         ));
-
     }
+
+    const getValue = (key:string) => {
+        return {
+            ...dummyData,
+            ...formData
+        }[key]
+    }
+    
 
     return (
         <Form
@@ -119,13 +157,14 @@ export default function FinalistForm(){
             layout="vertical"
             onFinish={handleFinish}
             autoComplete="off"
-            
+            initialValues={formData}
         >
             <div className="form-group">
 
                 <ImageUpload
                     name="picture"
                     onChange={handleElemChange}
+                    getValue={getValue}
                     error={formerror}
                     disable={loading}
                 />
@@ -136,6 +175,7 @@ export default function FinalistForm(){
                         label="Select your gender"
                         name="gender"
                         onChange={handleElemChange}
+                        getValue={getValue}
                         error={formerror}
                         disable={loading}
                         options={[
@@ -158,6 +198,7 @@ export default function FinalistForm(){
                         label="Part IV or Part V"
                         name="partV"
                         onChange={handleElemChange}
+                        getValue={getValue}
                         error={formerror}
                         disable={loading}
                         options={[
@@ -186,6 +227,7 @@ export default function FinalistForm(){
                     name="firstname"
                     label="First Name"
                     onChange={handleElemChange}
+                    getValue={getValue}
                     required
                     error={formerror}
                 />
@@ -195,6 +237,7 @@ export default function FinalistForm(){
                     name="lastname"
                     label="Last Name"
                     onChange={handleElemChange}
+                    getValue={getValue}
                     required
                     error={formerror}
                 />
@@ -209,6 +252,7 @@ export default function FinalistForm(){
                     label="Email"
                     email
                     onChange={handleElemChange}
+                    getValue={getValue}
                     required
                     error={formerror}
                 />
@@ -218,6 +262,7 @@ export default function FinalistForm(){
                     label="Phone Number"
                     tel
                     onChange={handleElemChange}
+                    getValue={getValue}
                     required
                     error={formerror}
                     disable={loading}
@@ -237,6 +282,7 @@ export default function FinalistForm(){
                         label="Are you a worker?"
                         name="worker"
                         onChange={handleElemChange}
+                        getValue={getValue}
                         options={[
                             {
                                 id:'worker-yes',
@@ -260,6 +306,7 @@ export default function FinalistForm(){
                         name="unit"
                         label="Your unit"
                         onChange={handleElemChange}
+                        getValue={getValue}
                         error={formerror}
                         disable={loading}
                     />
@@ -273,6 +320,7 @@ export default function FinalistForm(){
                         label="Are you an executive"
                         name="exco"
                         onChange={handleElemChange}
+                        getValue={getValue}
                         error={formerror}
                         disable={loading}
                         options={[
@@ -295,6 +343,7 @@ export default function FinalistForm(){
                         name="portfolio"
                         label="Your Portfolio"
                         onChange={handleElemChange}
+                        getValue={getValue}
                         error={formerror}
                         required
                         disable={loading}

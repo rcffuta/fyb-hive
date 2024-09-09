@@ -5,7 +5,7 @@ import { createRowSchema } from "../config";
 type Gender = 'male' | 'female';
 
 interface GuestProp {
-    consentId: string;
+    consentId?: string;
     associateId?: string;
     relationsipWithAssociate?: string;
 }
@@ -58,13 +58,13 @@ export const GuestStructure: Space<GuestAccount> = {
         email: {
             description: "Guest's Email",
             type: String,
-            required: true
+            required: true,
+            unique: true,
         },
         partV: {
             description: "Guest's level (partIV or Part V)",
             required: true,
-            type: String,
-            hashed: true
+            type: Boolean,
         },
         worker: {
             description: "Is Guest a worker",
@@ -88,8 +88,9 @@ export const GuestStructure: Space<GuestAccount> = {
 
         consentId: {
             description: 'Guest personal consent token',
-            required: true,
-            type: String
+            // required: true,
+            type: String,
+            unique: true,
         },
         associateId: {
             description: 'Guest-finalist associate consent token',

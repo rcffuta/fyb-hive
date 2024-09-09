@@ -4,10 +4,8 @@ import { message, Upload } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
 import Image from 'next/image';
 import { FormElement } from './Form/form.interface';
-import { upload_server_api } from '@/lib/nobox/config';
+import { upload_server_api, upload_server_token } from '@/lib/nobox/config';
 import axios, { AxiosProgressEvent } from 'axios';
-import { readLocalStorage } from '../utils/store-utils';
-import { UPLOAD_TOKEN } from '../constants';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -38,7 +36,7 @@ interface UplodProps extends FormElement {
 
 const ImageUpload: React.FC<UplodProps> = (props) => {
     const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState<string>();
+    // const [imageUrl, setImageUrl] = useState<string>();
 
 
     
@@ -71,7 +69,7 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
                 formData, {
                 headers: {                    
                     'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${readLocalStorage(UPLOAD_TOKEN)}`
+                    'Authorization': `Bearer ${upload_server_token}`
                 },
                 onUploadProgress: (progressEvent: AxiosProgressEvent) => {
                     const val = (progressEvent.loaded / (progressEvent.total || progressEvent.loaded));
@@ -83,7 +81,7 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
             const data: any = response.data.data;
             onSuccess(data);
 
-            setImageUrl(()=>data);
+            // setImageUrl(()=>data);
 
             // console.log(data);
             props.onChange(props.name, data);
@@ -109,6 +107,8 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
             </div>
         </button>
     );
+
+    const imageUrl: string = props.getValue(props.name) as string;
 
 
     return (

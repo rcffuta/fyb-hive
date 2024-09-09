@@ -41,6 +41,8 @@ export default function CheckInput(props: CheckInputProps) {
                         
                         let className = 'text-capitalize fw-400 fs-14 lh-27'
 
+                        const d_value = props.getValue(props.name);
+
                         if (item.icon) {
                             className += ` icon ${item.icon}`;
                         }
@@ -54,6 +56,8 @@ export default function CheckInput(props: CheckInputProps) {
                                     value={item.value.toString()}
                                     onChange={() => props.onChange(props.name, item.value)}
                                     readOnly={props.disable}
+                                    aria-checked={d_value === item.value}
+                                    checked={d_value === item.value}
                                 />
                                 <span
                                     className={className}

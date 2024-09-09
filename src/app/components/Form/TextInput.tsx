@@ -52,6 +52,7 @@ export default function TextInput(props: TextInputProps) {
                 addonBefore={props.tel ? '+234' : ''}
                 onChange={(e)=>props.onChange(props.name, e.target.value)}
                 disabled={props.disable}
+                value={props.getValue(props.name) as string}
             />
 
 
