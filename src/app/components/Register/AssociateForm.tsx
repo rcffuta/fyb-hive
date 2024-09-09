@@ -37,7 +37,10 @@ export default function AssociateForm(){
         >
                 <div className="form-group">
 
-                <ImageUpload/>
+                <ImageUpload
+                    name="picture"
+                    onChange={handleElemChange}
+                />
 
 
                 <div className="form-group group-col">

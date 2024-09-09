@@ -41,7 +41,10 @@ export default function FinalistForm(){
         >
             <div className="form-group">
 
-                <ImageUpload/>
+                <ImageUpload
+                    name="picture"
+                    onChange={handleElemChange}
+                />
 
                 <CheckInput
                     label="Select your gender"
