@@ -1,8 +1,9 @@
 import { Input } from "antd";
+import { FormElement } from "./form.interface";
 
 
 
-interface TextInputProps {
+interface TextInputProps extends FormElement {
     name: string;
     label: string;
     placeholder?: string;
@@ -39,6 +40,7 @@ export default function TextInput(props: TextInputProps) {
                 placeholder={props.placeholder}
                 type={type}
                 addonBefore={props.tel ? '+234' : ''}
+                onChange={(e)=>props.onChange(props.name, e.target.value)}
             />
 
         </label>

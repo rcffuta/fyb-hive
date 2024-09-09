@@ -4,17 +4,29 @@ import TextInput from "../Form/TextInput";
 import CheckInput from "../Form/CheckInput";
 import { Form } from "antd";
 import { useState } from "react";
+import { openNotificationWithIcon } from "@/app/utils/notification";
 
 
 export default function AssociateForm(){
     const [form] = Form.useForm();
+    const [formData, setFormData] = useState({});
 
-    const handleFinish = () => {}
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        address: '',
-    });
+    const handleFinish = (values: any) => {
+        console.log(formData);
+
+        // Show a success notification
+        openNotificationWithIcon('success', 'Form Submitted', 'Your form has been submitted successfully!');
+
+    }
+
+    const handleElemChange = (key:string, val:any)=>{
+        setFormData(prev=>(
+            {
+                ...prev,
+                [key]: val
+            }
+        ))
+    }
 
     return (
         <Form
@@ -30,23 +42,27 @@ export default function AssociateForm(){
 
                 <div className="form-group group-col">
                     <TextInput
-                        name="finalist-consent"
-                        label="Consent token"
+                        name="associateId"
+                        label="Finalist consent token"
+                        onChange={handleElemChange}
                     />
                     
                     <CheckInput
                         label="Select your gender"
                         name="gender"
+                        onChange={handleElemChange}
                         options={[
                             {
                                 id:'gender-male',
                                 label: 'Male',
-                                icon: 'icon-male'
+                                icon: 'icon-male',
+                                value: 'male'
                             },
                             {
                                 id:'gender-female',
                                 label: 'Female',
-                                icon: 'icon-female'
+                                icon: 'icon-female',
+                                value: 'female'
                             }
                         ]}
                     />
@@ -61,11 +77,13 @@ export default function AssociateForm(){
                 <TextInput
                     name="firstname"
                     label="First Name"
+                    onChange={handleElemChange}
                 />
 
                 <TextInput
                     name="lastname"
                     label="Last Name"
+                    onChange={handleElemChange}
                 />
             </div>
 
@@ -75,12 +93,14 @@ export default function AssociateForm(){
                 <TextInput
                     name="email"
                     label="Email"
+                    onChange={handleElemChange}
                     email
                 />
 
                 <TextInput
                     name="contact"
                     label="Phone Number"
+                    onChange={handleElemChange}
                     tel
                 />
 
@@ -90,8 +110,9 @@ export default function AssociateForm(){
 
 
            <TextInput
-                name="relationship"
+                name="relationsipWithAssociate"
                 label="Relationship with ...."
+                onChange={handleElemChange}
             />
 
             <br/>

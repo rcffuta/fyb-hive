@@ -1,8 +1,6 @@
-import { Input } from "antd";
+import { FormElement } from "./form.interface";
 
-
-
-interface CheckInputProps {
+interface CheckInputProps extends FormElement {
     name: string;
     label: string;
 
@@ -10,6 +8,7 @@ interface CheckInputProps {
         id: string;
         label: string;
         icon?: string;
+        value: string | boolean;
     }[]
 }
 
@@ -41,6 +40,8 @@ export default function CheckInput(props: CheckInputProps) {
                                 type="radio"
                                 name={props.name}
                                 id={item.id}
+                                value={item.value.toString()}
+                                onChange={() => props.onChange(props.name, item.value)}
                             />
                             <span
                                 className={className}

@@ -1,4 +1,5 @@
 import RegistrationForm from "../components/Register";
+import TestConnection from "../components/TestConnection";
 
 
 
@@ -13,6 +14,7 @@ export default function Register() {
             <br/><br/>
             <RegistrationForm/>
             <br/><br/>
+            {/* <TestConnection/> */}
         </>
     )   
 }
