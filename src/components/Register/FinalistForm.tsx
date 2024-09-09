@@ -9,9 +9,8 @@ import { FormError } from "../Form/form.interface";
 import { GuestAccount, GuestModel, GuestObject } from "@/lib/nobox/record-structures/Guest";
 import { generateShortToken } from "@/utils/generate-token";
 import axios from "axios";
-
-
-
+import validateForm from "@/utils/validate-form";
+import submitData from "@/utils/submit";
 
 const dummyData:any = {
     "contact": "8122137834",
@@ -35,7 +34,7 @@ export default function FinalistForm(){
     const [formerror, setFormError] = useState<FormError | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const handleFinish = (values: any) => {
+    const handleFinish = () => {
         
         const _errors = validateForm(formData);
 
@@ -47,26 +46,10 @@ export default function FinalistForm(){
         setLoading(true);
 
 
-        GuestModel.insertOne(formData as GuestAccount)
-        .then(async (obj: GuestObject)=>{
-
-            if (!obj) {
-                
-                throw new Error("Did not create account!");
-            }
-
-            const token = generateShortToken(obj.id)
-
-            // Update consent token
-            const guest = await GuestModel.updateOneById(obj.id, {
-                consentId: token
-            });
-
-            console.log("E reach here",obj);
-
-            await axios.post('/api/mail', { guest })
+        submitData(formData)
+        .then(async (guest: GuestAccount)=>{
+            await axios.post('/api/mail', { guest });
         })
-
         .then(()=>{
 
             setFormData(()=>({}))
@@ -85,55 +68,6 @@ export default function FinalistForm(){
         
     }
 
-    const validateForm = (_data: any) => {
-        const _formError: FormError = {};
-
-        const {
-            firstname, lastname,
-            picture, gender, contact,
-            email, partV, worker, unit,
-            exco, portfolio
-
-        } = _data;
-
-
-        let suffix = '';
-
-        if (!gender) _formError.gender = 'Male/Female please?'
-
-        if (gender) {
-            suffix = ' ' + (gender === 'male' ? 'sir': 'ma');
-        }
-
-
-        if (!firstname) _formError.firstname = 'First name is required' + suffix
-        if (!lastname) _formError.lastname = 'Last name is required'+ suffix
-        if (!picture) _formError.picture = 'Your picture is required'+ suffix
-        if (!contact) _formError.contact = 'Your contact is required'+ suffix
-        if (!email) _formError.email = 'Your email address is required'+ suffix
-        if (partV === undefined) _formError.partV = 'Part IV or Part V'+ suffix +'?'
-
-        if (worker === undefined) _formError.worker = 'Are you a worker or not'+ suffix +'?'
-
-        if (worker) {
-            if (!unit) _formError.unit = 'What unit'+ suffix +'?'
-        }
-
-
-        if (exco === undefined) _formError.exco = 'Are you an executive or not'+ suffix +'?'
-
-        if (exco) {
-            if (!portfolio) _formError.portfolio = 'What office'+ suffix +'?'
-        }
-
-
-        if (Object.keys(_formError).length < 1) {
-            return null
-        }
-
-        return _formError;
-
-    }
 
     const handleElemChange = (key:string, val:any)=>{
         setFormError((p)=>{
