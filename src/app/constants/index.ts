@@ -1,0 +1,1 @@
+export const UPLOAD_TOKEN = "nobox_upload_client_token";

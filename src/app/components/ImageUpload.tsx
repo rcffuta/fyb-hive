@@ -4,6 +4,10 @@ import { message, Upload } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
 import Image from 'next/image';
 import { FormElement } from './Form/form.interface';
+import { upload_server_api } from '@/lib/nobox/config';
+import axios, { AxiosProgressEvent } from 'axios';
+import { readLocalStorage } from '../utils/store-utils';
+import { UPLOAD_TOKEN } from '../constants';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -36,24 +40,51 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>();
 
-    const handleChange: UploadProps['onChange'] = (info) => {
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj as FileType, (url) => {
-                setLoading(false);
-                setImageUrl(url);
-            });
-        }
+    const upload = async (options: any) => {
+        const { onSuccess, onError, file, onProgress } = options;
 
-        if (info.file.status === 'error') {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        setLoading(true);
+
+        try {
+            
+            if (!file) {
+                throw new Error("No File to upload");
+            }
+
+            const response = await axios.post(`${upload_server_api}/files/upload`,
+                formData, {
+                headers: {                    
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${readLocalStorage(UPLOAD_TOKEN)}`
+                },
+                onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+                    const val = (progressEvent.loaded / (progressEvent.total || progressEvent.loaded));
+                    const percent = Math.floor( val * 100);
+                    onProgress({ percent });
+                },
+            });
+
+            const data: any = response.data.data;
+            onSuccess(data);
+
+            setImageUrl(()=>data);
+
+            // console.log(data);
+            props.onChange(props.name, data);
+
+            // toast.success(`${file.name} file uploaded successfully`);
+            setLoading(false);
+            message.success(`Uploaded your picture.`);
+        } catch (error) {
+            onError(error);
+            console.error(error); // ! Disable in production
+            // toast.error(`${file.name} file upload failed.`);
             message.error(`Failed to upload your picture.`);
-            console.log(info.file)
-            setLoading(false)
-            return;
+
+            setLoading(false);
         }
     };
 
@@ -73,9 +104,10 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"        
+            // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"        
             beforeUpload={beforeUpload}
-            onChange={handleChange}
+            // onChange={handleChange}
+            customRequest={upload}
         >
         {imageUrl ? <Image src={imageUrl} alt="avatar" style={{ width: '100%' }} width={100} height={100}/> : uploadButton}
         </Upload>
