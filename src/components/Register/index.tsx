@@ -5,6 +5,7 @@ import FinalistForm from './FinalistForm';
 import AssociateForm from './AssociateForm';
 
 
+
 export default function RegistrationForm() {
     const [currentTab, setCurrentTab] = useState(0);
 

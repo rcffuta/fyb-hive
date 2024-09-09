@@ -117,9 +117,7 @@ const ImageUpload: React.FC<UplodProps> = (props) => {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"        
-            beforeUpload={beforeUpload}
-            // onChange={handleChange}
+            beforeUpload={beforeUpload}            
             customRequest={upload}
         >
             {imageUrl ? <Image src={imageUrl} alt="avatar" style={{ width: '100%' }} width={100} height={100}/> : uploadButton}

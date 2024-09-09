@@ -4,24 +4,25 @@ import TextInput from "../Form/TextInput";
 import CheckInput from "../Form/CheckInput";
 import { Form } from "antd";
 import { useState } from "react";
-import { openNotificationWithIcon } from "@/app/utils/notification";
+import { openNotificationWithIcon } from "@/utils/notification";
 import { FormError } from "../Form/form.interface";
 import { GuestAccount, GuestModel, GuestObject } from "@/lib/nobox/record-structures/Guest";
-import { generateShortToken } from "@/app/utils/generate-token";
+import { generateShortToken } from "@/utils/generate-token";
+import axios from "axios";
 
 
 
 
 const dummyData:any = {
-    // "contact": "8122137834",
-    // "email": "preciousolusola16@gmail.com",
-    // "exco": false,
-    // "firstname": "Precious",
-    // "gender": "male",
-    // "lastname": "Olusola",
-    // "partV": true,
-    // "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
-    // "worker": false
+    "contact": "8122137834",
+    "email": "preciousolusola16@gmail.com",
+    "exco": false,
+    "firstname": "Precious",
+    "gender": "male",
+    "lastname": "Olusola",
+    "partV": true,
+    "picture": "https://nobox-upload-bucket.s3.eu-west-2.amazonaws.com/uploads/9c60fb7e-2653-46d3-b160-ec10e60d8ce6_rcf-logo.png",
+    "worker": false
 }
 
 
@@ -57,11 +58,15 @@ export default function FinalistForm(){
             const token = generateShortToken(obj.id)
 
             // Update consent token
-            await GuestModel.updateOneById(obj.id, {
+            const guest = await GuestModel.updateOneById(obj.id, {
                 consentId: token
             });
 
+            console.log("E reach here",obj);
+
+            await axios.post('/api/mail', { guest })
         })
+
         .then(()=>{
 
             setFormData(()=>({}))

@@ -1,5 +1,5 @@
-import RegistrationForm from "../components/Register";
-import TestConnection from "../components/TestConnection";
+import RegistrationForm from "../../components/Register";
+import TestConnection from "../../components/TestConnection";
 
 
 

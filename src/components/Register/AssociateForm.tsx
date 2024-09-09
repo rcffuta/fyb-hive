@@ -4,7 +4,7 @@ import TextInput from "../Form/TextInput";
 import CheckInput from "../Form/CheckInput";
 import { Form } from "antd";
 import { useState } from "react";
-import { openNotificationWithIcon } from "@/app/utils/notification";
+import { openNotificationWithIcon } from "@/utils/notification";
 
 
 export default function AssociateForm(){
@@ -35,7 +35,7 @@ export default function AssociateForm(){
             onFinish={handleFinish}
             initialValues={formData}
         >
-                <div className="form-group">
+            {/* <div className="form-group">
 
                 <ImageUpload
                     name="picture"
@@ -118,7 +118,7 @@ export default function AssociateForm(){
                 onChange={handleElemChange}
             />
 
-            <br/>
+            <br/> */}
 
 
             <div
